@@ -26,6 +26,7 @@ import de.felix_klauke.prophecy.core.connection.ProphecyConnection;
 import de.felix_klauke.prophecy.core.datasource.ProphecyDataSource;
 import de.felix_klauke.prophecy.core.pool.Pool;
 import de.felix_klauke.prophecy.core.pool.ProphecyConnectionPool;
+import de.felix_klauke.prophecy.core.validation.Validate;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -53,6 +54,8 @@ public class SimpleProphecy implements Prophecy {
 
     @Override
     public void checkInConnection(Connection connection) {
+        Validate.checkNotNull(connection, "connection cannot be null.");
+
         if (connection instanceof ProphecyConnection) {
             this.connectionPool.checkIn((ProphecyConnection) connection);
         }

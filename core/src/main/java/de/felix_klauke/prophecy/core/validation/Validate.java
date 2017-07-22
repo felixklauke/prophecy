@@ -19,27 +19,42 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.felix_klauke.prophecy.core;
-
-import de.felix_klauke.prophecy.core.config.ProphecyConfig;
-import de.felix_klauke.prophecy.core.validation.Validate;
+package de.felix_klauke.prophecy.core.validation;
 
 /**
- * Factory for all prophecy instances.
- *
  * @author Felix 'SasukeKawaii' Klauke
  */
-public class ProphecyFactory {
+public class Validate {
 
     /**
-     * Create a new prophecy instance.
-     *
-     * @param prophecyConfig The config.
-     * @return The instance.
+     * Prevent instantiation.
      */
-    public static Prophecy createProphecy(ProphecyConfig prophecyConfig) {
-        Validate.checkNotNull(prophecyConfig, "config cannot be null.");
+    private Validate() {
+        throw new AssertionError("Can not instantiate Validate.");
+    }
 
-        return new SimpleProphecy(prophecyConfig);
+    /**
+     * Check if an object is null and throw an exception otherwise.
+     *
+     * @param object  The object.
+     * @param message The message.
+     */
+    public static void checkNotNull(Object object, String message) {
+        if (object == null) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    /**
+     * Check if an b is what you expect and throw an exception otherwise.
+     *
+     * @param b       The state to check.
+     * @param b1      The expected state.
+     * @param message the message.
+     */
+    public static void checkState(boolean b, boolean b1, String message) {
+        if (b != b1) {
+            throw new IllegalStateException(message);
+        }
     }
 }

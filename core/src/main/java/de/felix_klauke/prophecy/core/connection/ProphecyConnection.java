@@ -22,6 +22,7 @@
 package de.felix_klauke.prophecy.core.connection;
 
 import de.felix_klauke.prophecy.core.pool.Pool;
+import de.felix_klauke.prophecy.core.validation.Validate;
 
 import java.sql.*;
 import java.util.Map;
@@ -35,10 +36,20 @@ import java.util.concurrent.Executor;
  */
 public class ProphecyConnection implements Connection {
 
+    /**
+     * The pool our wrapped connection belongs to.
+     */
     private final Pool<ProphecyConnection> connectionPool;
+
+    /**
+     * Underlying connection.
+     */
     private final Connection handle;
 
     public ProphecyConnection(Pool<ProphecyConnection> connectionPool, Connection handle) {
+        Validate.checkNotNull(connectionPool, "connectionPool cannot be null.");
+        Validate.checkNotNull(handle, "handle cannot be null.");
+
         this.connectionPool = connectionPool;
         this.handle = handle;
     }

@@ -19,4 +19,22 @@ notifications:
 ### Build script ###
 ####################
 script:
-  - mvn clean compile
+  - mvn clean compile package
+
+##################
+### Deployment ###
+##################
+deploy:
+  provider: script
+  script: mvn deploy --settings deploy/maven-settings.xml
+  on:
+    branch: master
+    tags: true
+
+###################
+### Environment ###
+###################
+env:
+  global:
+  - secure: ILRiReFSc05WhtSqOb0Nk8uyxHTK1aiyDpfhhYpKde79fENyDE2IjLwltQqtzMNKjM5O49me1fthgqGqwltCoGUfN96A93HQ67cFlkpWWyB1yXJuuhqrUBKKJ25ICGQAGKXt9Lv938pLmqce+5YKIsaNb39+w0qIq1yNq2h46mplrcc0CmGxxsqoT4TrLoR14aRrYC4QcgC+goUiTUrSOezb27fw/T0UZ8pHq7gGujs1nuOVv3qArgwbN1RvepntGHs/EDhiB2/0W6cZkVxrCQItLPQDwAmzw+QwIJGseo8BWa0obvl92zPfLep8nqNFIHm7IDIu5n2ImnPbT5y12wt+7wY8r3sXBvIiq/8UL14DnoJA7P4Od5IArYAn6pAxADy92QHi3c1H7HGc8WqVWu5R7uMAil2CmA4GFhKdPbaayKpDu7JCrbhLfWSR8zrY8hScEPLM17hzSZTpOryP7Wc2GSogiiHNCaXYwxWu8HC3imifEmEnDCwO8OvwoNuFmrMo6plO1aw8novAMCAHFElYKSvdi7a16pk3Rhcl5GeNun0i9ezty5RDXPjJ3A0J88nPa3uSen3qzcmU7mkzge9eNR73f+OJ8gz31E2x6h8yJagPJ3qiHw06aDk7l4v/UtRYIRO6t73jldTNe91w8ssHkQsspUAhSdvhomWlgqg=
+  - secure: YU16toBrE0TYI9PJXc4roHCSjF0DFZOcdAbYKHagAhkG2PQj4Iz5sV+PkXpQr4kJfukmLcVmlr4NDBVXZaRe7XMioBX2BDNOzrFCii0zj11YhnlV+UktBKCIfDAjf5QKDvop9u+Ogw2jSA9Sxz3Cjmr8o0BULbt5GgqcHlwpGdTUYDQ0em18RE2PNhPIJpIuhFgHflB9E/Qrh7XNN7tPz16b53veQwOerNUGBXrh3/qFeBPL8tMbIuXrB3ydEgjEkgnAEXkan6nnfvyyNWRdZ+zq3C2EWiBkz/0a/pbtwEhay1XW4MQgRPY4ruVfPdF2bIc1zvqTHZBa1zPjRVLnrURR+YaSu22PNLr4u9wsdV+FqHA4Dc68SGY0k+m8cyib2xgHUSRUBevMRjPK7lNxk8EWhafwOckOmkZYiNkPsoiYkVtH9GFWr9Fo++fKIuHp9sGXAs5QXgKckDVMtKoNw7HIQtzoqX4tXJEWRsVCv2s6Kim+vo4WAWBb0DqSJdxo3krbI6uUJlhd4jg1V8SVU7riSpzLr+zGG0W3pUEmEhrNUKIXxJz4QPL9/mHOU8wcSveGgKlJTVld5In/YIJy7bB+psBB2yJo4OUCvc7YFQfhn4+9xqrDeIJokLzoNPZ11oeebBHpkmdf5DZwNWNB5GLxPcWxQg1OAh7+y2NCbwI=

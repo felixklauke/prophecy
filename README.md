@@ -34,9 +34,9 @@ database access speed by using more than one connection.
 _Core:_
 ```xml
 <dependency>
-    <groupId>de.felix_klauke</groupId>
+    <groupId>de.felixklauke.prophecy</groupId>
     <artifactId>prophecy-core</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 

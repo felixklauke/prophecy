@@ -3,6 +3,13 @@
 Prophecy is a simple java SQL Connection pool capable of having multiple connections to enhance
 database access speed by using more than one connection. 
 
+# Build Status
+
+|             | Build Status                                                                                                            |
+|-------------|-------------------------------------------------------------------------------------------------------------------------|
+| Master      | [![Build Status](https://travis-ci.org/FelixKlauke/prophecy.svg?branch=master)](https://travis-ci.org/FelixKlauke/prophecy) |
+| Development | [![Build Status](https://travis-ci.org/FelixKlauke/prophecy.svg?branch=dev)](https://travis-ci.org/FelixKlauke/prophecy)    |
+
 # Installation / Usage
 
 - Install [Maven](http://maven.apache.org/download.cgi)

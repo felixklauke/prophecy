@@ -24,28 +24,28 @@ package de.felix_klauke.prophecy.core.pool;
 /**
  * Basic Pool interface.
  *
- * @author Felix 'SasukeKawaii' Klauke
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public interface Pool<PooledType> {
 
-    /**
-     * Get an instance. from the pool. Remember to give it back.
-     *
-     * @return The instance.
-     */
-    PooledType checkOut();
+  /**
+   * Get an instance. from the pool. Remember to give it back.
+   *
+   * @return The instance.
+   */
+  PooledType checkOut();
 
-    /**
-     * Give an instance back to the pool.
-     *
-     * @param instance The instance.
-     */
-    void checkIn(PooledType instance);
+  /**
+   * Give an instance back to the pool.
+   *
+   * @param instance The instance.
+   */
+  void checkIn(PooledType instance);
 
-    /**
-     * Get the current size of the pool.
-     *
-     * @return The size.
-     */
-    int getPoolSize();
+  /**
+   * Get the current size of the pool.
+   *
+   * @return The size.
+   */
+  int getPoolSize();
 }

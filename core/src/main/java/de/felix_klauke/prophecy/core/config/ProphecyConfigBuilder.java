@@ -22,30 +22,31 @@
 package de.felix_klauke.prophecy.core.config;
 
 public class ProphecyConfigBuilder {
-    private String databaseURL;
-    private String databaseUser;
-    private String databaseUserPassword;
 
-    ProphecyConfigBuilder() {
+  private String databaseURL;
+  private String databaseUser;
+  private String databaseUserPassword;
 
-    }
+  ProphecyConfigBuilder() {
 
-    public ProphecyConfigBuilder setDatabaseURL(String databaseURL) {
-        this.databaseURL = databaseURL;
-        return this;
-    }
+  }
 
-    public ProphecyConfigBuilder setDatabaseUser(String databaseUser) {
-        this.databaseUser = databaseUser;
-        return this;
-    }
+  public ProphecyConfigBuilder setDatabaseURL(String databaseURL) {
+    this.databaseURL = databaseURL;
+    return this;
+  }
 
-    public ProphecyConfigBuilder setDatabaseUserPassword(String databaseUserPassword) {
-        this.databaseUserPassword = databaseUserPassword;
-        return this;
-    }
+  public ProphecyConfigBuilder setDatabaseUser(String databaseUser) {
+    this.databaseUser = databaseUser;
+    return this;
+  }
 
-    public ProphecyConfig createProphecyConfig() {
-        return new ProphecyConfig(databaseURL, databaseUser, databaseUserPassword);
-    }
+  public ProphecyConfigBuilder setDatabaseUserPassword(String databaseUserPassword) {
+    this.databaseUserPassword = databaseUserPassword;
+    return this;
+  }
+
+  public ProphecyConfig createProphecyConfig() {
+    return new ProphecyConfig(databaseURL, databaseUser, databaseUserPassword);
+  }
 }

@@ -22,71 +22,71 @@
 package de.felix_klauke.prophecy.core.config;
 
 /**
- * @author Felix 'SasukeKawaii' Klauke
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public class ProphecyConfig {
 
-    /**
-     * URL Of the database.
-     */
-    private final String databaseURL;
+  /**
+   * URL Of the database.
+   */
+  private final String databaseURL;
 
-    /**
-     * User to login into the db.
-     */
-    private final String databaseUser;
+  /**
+   * User to login into the db.
+   */
+  private final String databaseUser;
 
-    /**
-     * Password to login.
-     */
-    private final String databaseUserPassword;
+  /**
+   * Password to login.
+   */
+  private final String databaseUserPassword;
 
-    /**
-     * Create a config by all its data.
-     *
-     * @param databaseURL          The url.
-     * @param databaseUser         The user.
-     * @param databaseUserPassword The password.
-     */
-    public ProphecyConfig(String databaseURL, String databaseUser, String databaseUserPassword) {
-        this.databaseURL = databaseURL;
-        this.databaseUser = databaseUser;
-        this.databaseUserPassword = databaseUserPassword;
-    }
+  /**
+   * Create a config by all its data.
+   *
+   * @param databaseURL The url.
+   * @param databaseUser The user.
+   * @param databaseUserPassword The password.
+   */
+  public ProphecyConfig(String databaseURL, String databaseUser, String databaseUserPassword) {
+    this.databaseURL = databaseURL;
+    this.databaseUser = databaseUser;
+    this.databaseUserPassword = databaseUserPassword;
+  }
 
-    /**
-     * Create a new builder.
-     *
-     * @return The builder.
-     */
-    public static ProphecyConfigBuilder newBuilder() {
-        return new ProphecyConfigBuilder();
-    }
+  /**
+   * Create a new builder.
+   *
+   * @return The builder.
+   */
+  public static ProphecyConfigBuilder newBuilder() {
+    return new ProphecyConfigBuilder();
+  }
 
-    /**
-     * Get the url of the database.
-     *
-     * @return The url.
-     */
-    public String getDatabaseURL() {
-        return databaseURL;
-    }
+  /**
+   * Get the url of the database.
+   *
+   * @return The url.
+   */
+  public String getDatabaseURL() {
+    return databaseURL;
+  }
 
-    /**
-     * Get the user for the database.
-     *
-     * @return The database user.
-     */
-    public String getDatabaseUser() {
-        return databaseUser;
-    }
+  /**
+   * Get the user for the database.
+   *
+   * @return The database user.
+   */
+  public String getDatabaseUser() {
+    return databaseUser;
+  }
 
-    /**
-     * Get the password for the user.
-     *
-     * @return The password.
-     */
-    public String getDatabaseUserPassword() {
-        return databaseUserPassword;
-    }
+  /**
+   * Get the password for the user.
+   *
+   * @return The password.
+   */
+  public String getDatabaseUserPassword() {
+    return databaseUserPassword;
+  }
 }

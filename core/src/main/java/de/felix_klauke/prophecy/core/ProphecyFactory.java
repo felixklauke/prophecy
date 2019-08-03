@@ -27,19 +27,19 @@ import de.felix_klauke.prophecy.core.validation.Validate;
 /**
  * Factory for all prophecy instances.
  *
- * @author Felix 'SasukeKawaii' Klauke
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public class ProphecyFactory {
 
-    /**
-     * Create a new prophecy instance.
-     *
-     * @param prophecyConfig The config.
-     * @return The instance.
-     */
-    public static Prophecy createProphecy(ProphecyConfig prophecyConfig) {
-        Validate.checkNotNull(prophecyConfig, "config cannot be null.");
+  /**
+   * Create a new prophecy instance.
+   *
+   * @param prophecyConfig The config.
+   * @return The instance.
+   */
+  public static Prophecy createProphecy(ProphecyConfig prophecyConfig) {
+    Validate.checkNotNull(prophecyConfig, "config cannot be null.");
 
-        return new SimpleProphecy(prophecyConfig);
-    }
+    return new SimpleProphecy(prophecyConfig);
+  }
 }

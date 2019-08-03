@@ -23,8 +23,21 @@ package de.felix_klauke.prophecy.core.connection;
 
 import de.felix_klauke.prophecy.core.pool.Pool;
 import de.felix_klauke.prophecy.core.validation.Validate;
-
-import java.sql.*;
+import java.sql.Array;
+import java.sql.Blob;
+import java.sql.CallableStatement;
+import java.sql.Clob;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.NClob;
+import java.sql.PreparedStatement;
+import java.sql.SQLClientInfoException;
+import java.sql.SQLException;
+import java.sql.SQLWarning;
+import java.sql.SQLXML;
+import java.sql.Savepoint;
+import java.sql.Statement;
+import java.sql.Struct;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
@@ -32,296 +45,302 @@ import java.util.concurrent.Executor;
 /**
  * Wrapper around {@link Connection}
  *
- * @author Felix 'SasukeKawaii' Klauke
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public class ProphecyConnection implements Connection {
 
-    /**
-     * The pool our wrapped connection belongs to.
-     */
-    private final Pool<ProphecyConnection> connectionPool;
+  /**
+   * The pool our wrapped connection belongs to.
+   */
+  private final Pool<ProphecyConnection> connectionPool;
 
-    /**
-     * Underlying connection.
-     */
-    private final Connection handle;
+  /**
+   * Underlying connection.
+   */
+  private final Connection handle;
 
-    public ProphecyConnection(Pool<ProphecyConnection> connectionPool, Connection handle) {
-        Validate.checkNotNull(connectionPool, "connectionPool cannot be null.");
-        Validate.checkNotNull(handle, "handle cannot be null.");
+  public ProphecyConnection(Pool<ProphecyConnection> connectionPool, Connection handle) {
+    Validate.checkNotNull(connectionPool, "connectionPool cannot be null.");
+    Validate.checkNotNull(handle, "handle cannot be null.");
 
-        this.connectionPool = connectionPool;
-        this.handle = handle;
-    }
+    this.connectionPool = connectionPool;
+    this.handle = handle;
+  }
 
-    @Override
-    public Statement createStatement() throws SQLException {
-        return handle.createStatement();
-    }
+  @Override
+  public Statement createStatement() throws SQLException {
+    return handle.createStatement();
+  }
 
-    @Override
-    public PreparedStatement prepareStatement(String sql) throws SQLException {
-        return handle.prepareStatement(sql);
-    }
+  @Override
+  public PreparedStatement prepareStatement(String sql) throws SQLException {
+    return handle.prepareStatement(sql);
+  }
 
-    @Override
-    public CallableStatement prepareCall(String sql) throws SQLException {
-        return handle.prepareCall(sql);
-    }
+  @Override
+  public CallableStatement prepareCall(String sql) throws SQLException {
+    return handle.prepareCall(sql);
+  }
 
-    @Override
-    public String nativeSQL(String sql) throws SQLException {
-        return handle.nativeSQL(sql);
-    }
+  @Override
+  public String nativeSQL(String sql) throws SQLException {
+    return handle.nativeSQL(sql);
+  }
 
-    @Override
-    public boolean getAutoCommit() throws SQLException {
-        return handle.getAutoCommit();
-    }
+  @Override
+  public boolean getAutoCommit() throws SQLException {
+    return handle.getAutoCommit();
+  }
 
-    @Override
-    public void setAutoCommit(boolean autoCommit) throws SQLException {
-        handle.setAutoCommit(autoCommit);
-    }
+  @Override
+  public void setAutoCommit(boolean autoCommit) throws SQLException {
+    handle.setAutoCommit(autoCommit);
+  }
 
-    @Override
-    public void commit() throws SQLException {
-        handle.commit();
-    }
+  @Override
+  public void commit() throws SQLException {
+    handle.commit();
+  }
 
-    @Override
-    public void rollback() throws SQLException {
-        handle.rollback();
-    }
+  @Override
+  public void rollback() throws SQLException {
+    handle.rollback();
+  }
 
-    @Override
-    public void close() throws SQLException {
+  @Override
+  public void close() throws SQLException {
 
-        this.connectionPool.checkIn(this);
-    }
+    this.connectionPool.checkIn(this);
+  }
 
-    @Override
-    public boolean isClosed() throws SQLException {
-        return handle.isClosed();
-    }
+  @Override
+  public boolean isClosed() throws SQLException {
+    return handle.isClosed();
+  }
 
-    @Override
-    public DatabaseMetaData getMetaData() throws SQLException {
-        return handle.getMetaData();
-    }
+  @Override
+  public DatabaseMetaData getMetaData() throws SQLException {
+    return handle.getMetaData();
+  }
 
-    @Override
-    public boolean isReadOnly() throws SQLException {
-        return handle.isReadOnly();
-    }
+  @Override
+  public boolean isReadOnly() throws SQLException {
+    return handle.isReadOnly();
+  }
 
-    @Override
-    public void setReadOnly(boolean readOnly) throws SQLException {
-        handle.setReadOnly(readOnly);
-    }
+  @Override
+  public void setReadOnly(boolean readOnly) throws SQLException {
+    handle.setReadOnly(readOnly);
+  }
 
-    @Override
-    public String getCatalog() throws SQLException {
-        return handle.getCatalog();
-    }
+  @Override
+  public String getCatalog() throws SQLException {
+    return handle.getCatalog();
+  }
 
-    @Override
-    public void setCatalog(String catalog) throws SQLException {
-        handle.setCatalog(catalog);
-    }
+  @Override
+  public void setCatalog(String catalog) throws SQLException {
+    handle.setCatalog(catalog);
+  }
 
-    @Override
-    public int getTransactionIsolation() throws SQLException {
-        return handle.getTransactionIsolation();
-    }
+  @Override
+  public int getTransactionIsolation() throws SQLException {
+    return handle.getTransactionIsolation();
+  }
 
-    @Override
-    public void setTransactionIsolation(int level) throws SQLException {
-        handle.setTransactionIsolation(level);
-    }
+  @Override
+  public void setTransactionIsolation(int level) throws SQLException {
+    handle.setTransactionIsolation(level);
+  }
 
-    @Override
-    public SQLWarning getWarnings() throws SQLException {
-        return handle.getWarnings();
-    }
+  @Override
+  public SQLWarning getWarnings() throws SQLException {
+    return handle.getWarnings();
+  }
 
-    @Override
-    public void clearWarnings() throws SQLException {
-        handle.clearWarnings();
-    }
+  @Override
+  public void clearWarnings() throws SQLException {
+    handle.clearWarnings();
+  }
 
-    @Override
-    public Statement createStatement(int resultSetType, int resultSetConcurrency) throws SQLException {
-        return handle.createStatement(resultSetType, resultSetConcurrency);
-    }
+  @Override
+  public Statement createStatement(int resultSetType, int resultSetConcurrency)
+      throws SQLException {
+    return handle.createStatement(resultSetType, resultSetConcurrency);
+  }
 
-    @Override
-    public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
-        return handle.prepareStatement(sql, resultSetType, resultSetConcurrency);
-    }
+  @Override
+  public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency)
+      throws SQLException {
+    return handle.prepareStatement(sql, resultSetType, resultSetConcurrency);
+  }
 
-    @Override
-    public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
-        return handle.prepareCall(sql, resultSetType, resultSetConcurrency);
-    }
+  @Override
+  public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency)
+      throws SQLException {
+    return handle.prepareCall(sql, resultSetType, resultSetConcurrency);
+  }
 
-    @Override
-    public Map<String, Class<?>> getTypeMap() throws SQLException {
-        return handle.getTypeMap();
-    }
+  @Override
+  public Map<String, Class<?>> getTypeMap() throws SQLException {
+    return handle.getTypeMap();
+  }
 
-    @Override
-    public void setTypeMap(Map<String, Class<?>> map) throws SQLException {
-        handle.setTypeMap(map);
-    }
+  @Override
+  public void setTypeMap(Map<String, Class<?>> map) throws SQLException {
+    handle.setTypeMap(map);
+  }
 
-    @Override
-    public int getHoldability() throws SQLException {
-        return handle.getHoldability();
-    }
+  @Override
+  public int getHoldability() throws SQLException {
+    return handle.getHoldability();
+  }
 
-    @Override
-    public void setHoldability(int holdability) throws SQLException {
-        handle.setHoldability(holdability);
-    }
+  @Override
+  public void setHoldability(int holdability) throws SQLException {
+    handle.setHoldability(holdability);
+  }
 
-    @Override
-    public Savepoint setSavepoint() throws SQLException {
-        return handle.setSavepoint();
-    }
+  @Override
+  public Savepoint setSavepoint() throws SQLException {
+    return handle.setSavepoint();
+  }
 
-    @Override
-    public Savepoint setSavepoint(String name) throws SQLException {
-        return handle.setSavepoint(name);
-    }
+  @Override
+  public Savepoint setSavepoint(String name) throws SQLException {
+    return handle.setSavepoint(name);
+  }
 
-    @Override
-    public void rollback(Savepoint savepoint) throws SQLException {
-        handle.rollback(savepoint);
-    }
+  @Override
+  public void rollback(Savepoint savepoint) throws SQLException {
+    handle.rollback(savepoint);
+  }
 
-    @Override
-    public void releaseSavepoint(Savepoint savepoint) throws SQLException {
-        handle.releaseSavepoint(savepoint);
-    }
+  @Override
+  public void releaseSavepoint(Savepoint savepoint) throws SQLException {
+    handle.releaseSavepoint(savepoint);
+  }
 
-    @Override
-    public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-        return handle.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability);
-    }
+  @Override
+  public Statement createStatement(int resultSetType, int resultSetConcurrency,
+      int resultSetHoldability) throws SQLException {
+    return handle.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability);
+  }
 
-    @Override
-    public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-        return handle.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
-    }
+  @Override
+  public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency,
+      int resultSetHoldability) throws SQLException {
+    return handle.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
+  }
 
-    @Override
-    public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-        return handle.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
-    }
+  @Override
+  public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency,
+      int resultSetHoldability) throws SQLException {
+    return handle.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
+  }
 
-    @Override
-    public PreparedStatement prepareStatement(String sql, int autoGeneratedKeys) throws SQLException {
-        return handle.prepareStatement(sql, autoGeneratedKeys);
-    }
+  @Override
+  public PreparedStatement prepareStatement(String sql, int autoGeneratedKeys) throws SQLException {
+    return handle.prepareStatement(sql, autoGeneratedKeys);
+  }
 
-    @Override
-    public PreparedStatement prepareStatement(String sql, int[] columnIndexes) throws SQLException {
-        return handle.prepareStatement(sql, columnIndexes);
-    }
+  @Override
+  public PreparedStatement prepareStatement(String sql, int[] columnIndexes) throws SQLException {
+    return handle.prepareStatement(sql, columnIndexes);
+  }
 
-    @Override
-    public PreparedStatement prepareStatement(String sql, String[] columnNames) throws SQLException {
-        return handle.prepareStatement(sql, columnNames);
-    }
+  @Override
+  public PreparedStatement prepareStatement(String sql, String[] columnNames) throws SQLException {
+    return handle.prepareStatement(sql, columnNames);
+  }
 
-    @Override
-    public Clob createClob() throws SQLException {
-        return handle.createClob();
-    }
+  @Override
+  public Clob createClob() throws SQLException {
+    return handle.createClob();
+  }
 
-    @Override
-    public Blob createBlob() throws SQLException {
-        return handle.createBlob();
-    }
+  @Override
+  public Blob createBlob() throws SQLException {
+    return handle.createBlob();
+  }
 
-    @Override
-    public NClob createNClob() throws SQLException {
-        return handle.createNClob();
-    }
+  @Override
+  public NClob createNClob() throws SQLException {
+    return handle.createNClob();
+  }
 
-    @Override
-    public SQLXML createSQLXML() throws SQLException {
-        return handle.createSQLXML();
-    }
+  @Override
+  public SQLXML createSQLXML() throws SQLException {
+    return handle.createSQLXML();
+  }
 
-    @Override
-    public boolean isValid(int timeout) throws SQLException {
-        return handle.isValid(timeout);
-    }
+  @Override
+  public boolean isValid(int timeout) throws SQLException {
+    return handle.isValid(timeout);
+  }
 
-    @Override
-    public void setClientInfo(String name, String value) throws SQLClientInfoException {
-        handle.setClientInfo(name, value);
-    }
+  @Override
+  public void setClientInfo(String name, String value) throws SQLClientInfoException {
+    handle.setClientInfo(name, value);
+  }
 
-    @Override
-    public String getClientInfo(String name) throws SQLException {
-        return handle.getClientInfo(name);
-    }
+  @Override
+  public String getClientInfo(String name) throws SQLException {
+    return handle.getClientInfo(name);
+  }
 
-    @Override
-    public Properties getClientInfo() throws SQLException {
-        return handle.getClientInfo();
-    }
+  @Override
+  public Properties getClientInfo() throws SQLException {
+    return handle.getClientInfo();
+  }
 
-    @Override
-    public void setClientInfo(Properties properties) throws SQLClientInfoException {
-        handle.setClientInfo(properties);
-    }
+  @Override
+  public void setClientInfo(Properties properties) throws SQLClientInfoException {
+    handle.setClientInfo(properties);
+  }
 
-    @Override
-    public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
-        return handle.createArrayOf(typeName, elements);
-    }
+  @Override
+  public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
+    return handle.createArrayOf(typeName, elements);
+  }
 
-    @Override
-    public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
-        return handle.createStruct(typeName, attributes);
-    }
+  @Override
+  public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
+    return handle.createStruct(typeName, attributes);
+  }
 
-    @Override
-    public String getSchema() throws SQLException {
-        return handle.getSchema();
-    }
+  @Override
+  public String getSchema() throws SQLException {
+    return handle.getSchema();
+  }
 
-    @Override
-    public void setSchema(String schema) throws SQLException {
-        handle.setSchema(schema);
-    }
+  @Override
+  public void setSchema(String schema) throws SQLException {
+    handle.setSchema(schema);
+  }
 
-    @Override
-    public void abort(Executor executor) throws SQLException {
-        handle.abort(executor);
-    }
+  @Override
+  public void abort(Executor executor) throws SQLException {
+    handle.abort(executor);
+  }
 
-    @Override
-    public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
-        handle.setNetworkTimeout(executor, milliseconds);
-    }
+  @Override
+  public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
+    handle.setNetworkTimeout(executor, milliseconds);
+  }
 
-    @Override
-    public int getNetworkTimeout() throws SQLException {
-        return handle.getNetworkTimeout();
-    }
+  @Override
+  public int getNetworkTimeout() throws SQLException {
+    return handle.getNetworkTimeout();
+  }
 
-    @Override
-    public <T> T unwrap(Class<T> iface) throws SQLException {
-        return handle.unwrap(iface);
-    }
+  @Override
+  public <T> T unwrap(Class<T> iface) throws SQLException {
+    return handle.unwrap(iface);
+  }
 
-    @Override
-    public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        return handle.isWrapperFor(iface);
-    }
+  @Override
+  public boolean isWrapperFor(Class<?> iface) throws SQLException {
+    return handle.isWrapperFor(iface);
+  }
 }

@@ -23,7 +23,6 @@ package de.felix_klauke.prophecy.core.pool;
 
 import de.felix_klauke.prophecy.core.config.ProphecyConfig;
 import de.felix_klauke.prophecy.core.connection.ProphecyConnection;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -31,33 +30,35 @@ import java.sql.SQLException;
 /**
  * Pool impl to hold some {@link ProphecyConnection}
  *
- * @author Felix 'SasukeKawaii' Klauke
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public class ProphecyConnectionPool extends AbstractPool<ProphecyConnection> {
 
-    /**
-     * Config for connections.
-     */
-    private final ProphecyConfig prophecyConfig;
+  /**
+   * Config for connections.
+   */
+  private final ProphecyConfig prophecyConfig;
 
-    /**
-     * Create a new connection pool.
-     *
-     * @param prophecyConfig The config.
-     */
-    public ProphecyConnectionPool(ProphecyConfig prophecyConfig) {
-        this.prophecyConfig = prophecyConfig;
+  /**
+   * Create a new connection pool.
+   *
+   * @param prophecyConfig The config.
+   */
+  public ProphecyConnectionPool(ProphecyConfig prophecyConfig) {
+    this.prophecyConfig = prophecyConfig;
+  }
+
+  @Override
+  public ProphecyConnection create() {
+    try {
+      Connection connection = DriverManager
+          .getConnection(prophecyConfig.getDatabaseURL(), prophecyConfig.getDatabaseUser(),
+              prophecyConfig.getDatabaseUserPassword());
+      return new ProphecyConnection(this, connection);
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
 
-    @Override
-    public ProphecyConnection create() {
-        try {
-            Connection connection = DriverManager.getConnection(prophecyConfig.getDatabaseURL(), prophecyConfig.getDatabaseUser(), prophecyConfig.getDatabaseUserPassword());
-            return new ProphecyConnection(this, connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

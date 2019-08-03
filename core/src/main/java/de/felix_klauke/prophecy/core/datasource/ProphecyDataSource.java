@@ -23,78 +23,77 @@ package de.felix_klauke.prophecy.core.datasource;
 
 import de.felix_klauke.prophecy.core.connection.ProphecyConnection;
 import de.felix_klauke.prophecy.core.pool.Pool;
-
-import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
 
 /**
  * Basic data source implementation.
  *
- * @author Felix 'SasukeKawaii' Klauke
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public class ProphecyDataSource implements DataSource {
 
-    /**
-     * Underlying connection pool.
-     */
-    private final Pool<ProphecyConnection> connectionPool;
+  /**
+   * Underlying connection pool.
+   */
+  private final Pool<ProphecyConnection> connectionPool;
 
-    /**
-     * Create a new data source.
-     *
-     * @param connectionPool The connection fail.
-     */
-    public ProphecyDataSource(Pool<ProphecyConnection> connectionPool) {
-        this.connectionPool = connectionPool;
-    }
+  /**
+   * Create a new data source.
+   *
+   * @param connectionPool The connection fail.
+   */
+  public ProphecyDataSource(Pool<ProphecyConnection> connectionPool) {
+    this.connectionPool = connectionPool;
+  }
 
-    @Override
-    public Connection getConnection() throws SQLException {
-        return connectionPool.checkOut();
-    }
+  @Override
+  public Connection getConnection() throws SQLException {
+    return connectionPool.checkOut();
+  }
 
-    @Override
-    public Connection getConnection(String username, String password) throws SQLException {
-        return connectionPool.checkOut();
-    }
+  @Override
+  public Connection getConnection(String username, String password) throws SQLException {
+    return connectionPool.checkOut();
+  }
 
-    @Override
-    public <T> T unwrap(Class<T> iface) throws SQLException {
-        return null;
-    }
+  @Override
+  public <T> T unwrap(Class<T> iface) throws SQLException {
+    return null;
+  }
 
-    @Override
-    public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        return false;
-    }
+  @Override
+  public boolean isWrapperFor(Class<?> iface) throws SQLException {
+    return false;
+  }
 
-    @Override
-    public PrintWriter getLogWriter() throws SQLException {
-        return DriverManager.getLogWriter();
-    }
+  @Override
+  public PrintWriter getLogWriter() throws SQLException {
+    return DriverManager.getLogWriter();
+  }
 
-    @Override
-    public void setLogWriter(PrintWriter out) throws SQLException {
-        DriverManager.setLogWriter(out);
-    }
+  @Override
+  public void setLogWriter(PrintWriter out) throws SQLException {
+    DriverManager.setLogWriter(out);
+  }
 
-    @Override
-    public int getLoginTimeout() throws SQLException {
-        return DriverManager.getLoginTimeout();
-    }
+  @Override
+  public int getLoginTimeout() throws SQLException {
+    return DriverManager.getLoginTimeout();
+  }
 
-    @Override
-    public void setLoginTimeout(int seconds) throws SQLException {
-        DriverManager.setLoginTimeout(seconds);
-    }
+  @Override
+  public void setLoginTimeout(int seconds) throws SQLException {
+    DriverManager.setLoginTimeout(seconds);
+  }
 
-    @Override
-    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-        return Logger.getLogger(ProphecyDataSource.class.getSimpleName());
-    }
+  @Override
+  public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+    return Logger.getLogger(ProphecyDataSource.class.getSimpleName());
+  }
 }

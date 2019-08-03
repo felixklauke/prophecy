@@ -27,42 +27,41 @@ import de.felix_klauke.prophecy.core.datasource.ProphecyDataSource;
 import de.felix_klauke.prophecy.core.pool.Pool;
 import de.felix_klauke.prophecy.core.pool.ProphecyConnectionPool;
 import de.felix_klauke.prophecy.core.validation.Validate;
-
-import javax.sql.DataSource;
 import java.sql.Connection;
+import javax.sql.DataSource;
 
 /**
  * Basic Prophecy implementation.
  *
- * @author Felix 'SasukeKawaii' Klauke
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public class SimpleProphecy implements Prophecy {
 
-    /**
-     * The underlying pool.
-     */
-    private final Pool<ProphecyConnection> connectionPool;
+  /**
+   * The underlying pool.
+   */
+  private final Pool<ProphecyConnection> connectionPool;
 
-    SimpleProphecy(ProphecyConfig config) {
-        this.connectionPool = new ProphecyConnectionPool(config);
+  SimpleProphecy(ProphecyConfig config) {
+    this.connectionPool = new ProphecyConnectionPool(config);
+  }
+
+  @Override
+  public Connection getConnection() {
+    return this.connectionPool.checkOut();
+  }
+
+  @Override
+  public void checkInConnection(Connection connection) {
+    Validate.checkNotNull(connection, "connection cannot be null.");
+
+    if (connection instanceof ProphecyConnection) {
+      this.connectionPool.checkIn((ProphecyConnection) connection);
     }
+  }
 
-    @Override
-    public Connection getConnection() {
-        return this.connectionPool.checkOut();
-    }
-
-    @Override
-    public void checkInConnection(Connection connection) {
-        Validate.checkNotNull(connection, "connection cannot be null.");
-
-        if (connection instanceof ProphecyConnection) {
-            this.connectionPool.checkIn((ProphecyConnection) connection);
-        }
-    }
-
-    @Override
-    public DataSource createDatasource() {
-        return new ProphecyDataSource(connectionPool);
-    }
+  @Override
+  public DataSource createDatasource() {
+    return new ProphecyDataSource(connectionPool);
+  }
 }

@@ -21,34 +21,34 @@
 
 package de.felix_klauke.prophecy.core;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
+import javax.sql.DataSource;
 
 /**
  * Basic prophecy interface.
  *
- * @author Felix 'SasukeKawaii' Klauke
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public interface Prophecy {
 
-    /**
-     * Get a connection.
-     *
-     * @return The connection.
-     */
-    Connection getConnection();
+  /**
+   * Get a connection.
+   *
+   * @return The connection.
+   */
+  Connection getConnection();
 
-    /**
-     * Good boy, give it back.
-     *
-     * @param connection The connection.
-     */
-    void checkInConnection(Connection connection);
+  /**
+   * Good boy, give it back.
+   *
+   * @param connection The connection.
+   */
+  void checkInConnection(Connection connection);
 
-    /**
-     * Get a data source with and underlying pool.
-     *
-     * @return The data source.
-     */
-    DataSource createDatasource();
+  /**
+   * Get a data source with and underlying pool.
+   *
+   * @return The data source.
+   */
+  DataSource createDatasource();
 }

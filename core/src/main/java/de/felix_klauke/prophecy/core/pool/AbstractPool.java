@@ -28,61 +28,63 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Basic adapter for the pool.
  *
- * @author Felix 'SasukeKawaii' Klauke
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public abstract class AbstractPool<PooledType> implements Pool<PooledType> {
 
-    /**
-     * Underlying map that contains all connections.
-     */
-    private final Map<PooledType, Boolean> currentPool;
+  /**
+   * Underlying map that contains all connections.
+   */
+  private final Map<PooledType, Boolean> currentPool;
 
-    /**
-     * Create a new pool adapter.
-     */
-    public AbstractPool() {
-        this.currentPool = new ConcurrentHashMap<>();
+  /**
+   * Create a new pool adapter.
+   */
+  public AbstractPool() {
+    this.currentPool = new ConcurrentHashMap<>();
+  }
+
+  /**
+   * Create an instance of the pooled subject.
+   *
+   * @return The instance.
+   */
+  public abstract PooledType create();
+
+  @Override
+  public PooledType checkOut() {
+    PooledType instance;
+
+    if (currentPool.size() == 0) {
+      instance = this.create();
+    } else {
+      instance = this.currentPool.entrySet().stream()
+          .filter(entry -> !entry.getValue())
+          .map(Entry::getKey)
+          .findFirst()
+          .orElse(null);
     }
 
-    /**
-     * Create an instance of the pooled subject.
-     *
-     * @return The instance.
-     */
-    public abstract PooledType create();
-
-    @Override
-    public PooledType checkOut() {
-        PooledType instance;
-
-        if (currentPool.size() == 0) {
-            instance = this.create();
-        } else {
-            instance = this.currentPool.entrySet().stream()
-                    .filter(entry -> !entry.getValue())
-                    .map(Entry::getKey)
-                    .findFirst()
-                    .orElse(null);
-        }
-
-        if (instance == null) instance = this.create();
-
-        this.currentPool.put(instance, true);
-
-        return instance;
+    if (instance == null) {
+      instance = this.create();
     }
 
-    @Override
-    public void checkIn(PooledType instance) {
-        if (!this.currentPool.containsKey(instance)) {
-            throw new IllegalArgumentException("The given instance does not belong to the pool.");
-        }
+    this.currentPool.put(instance, true);
 
-        this.currentPool.put(instance, false);
+    return instance;
+  }
+
+  @Override
+  public void checkIn(PooledType instance) {
+    if (!this.currentPool.containsKey(instance)) {
+      throw new IllegalArgumentException("The given instance does not belong to the pool.");
     }
 
-    @Override
-    public int getPoolSize() {
-        return this.currentPool.size();
-    }
+    this.currentPool.put(instance, false);
+  }
+
+  @Override
+  public int getPoolSize() {
+    return this.currentPool.size();
+  }
 }
